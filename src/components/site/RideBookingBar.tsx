@@ -1,5 +1,3 @@
-import { TRILYT_INSTAGRAM_DM_URL } from "@/lib/links";
-
 /**
  * Always-visible booking bar pinned to the bottom of the viewport.
  *
@@ -11,10 +9,12 @@ export function RideBookingBar({
   priceWas,
   priceNow,
   seatsNote,
+  bookingUrl,
 }: {
   priceWas: string;
   priceNow: string;
   seatsNote?: string;
+  bookingUrl: string;
 }) {
   return (
     <div className="sticky bottom-0 z-40 border-t border-border-default bg-page/95 backdrop-blur-md">
@@ -36,12 +36,12 @@ export function RideBookingBar({
         </div>
 
         <a
-          href={TRILYT_INSTAGRAM_DM_URL}
+          href={bookingUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="text-label-md shrink-0 rounded-half bg-brand px-xl py-md text-text-on-brand transition-opacity hover:opacity-90"
         >
-          Book on Instagram
+          Book now
         </a>
       </div>
     </div>

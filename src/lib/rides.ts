@@ -15,6 +15,8 @@ export const UPCOMING_RIDE = {
   /** Used to compute the live countdown. */
   dateISO: "2026-10-10",
   href: "/rides/kolli-hills",
+  /** Where every "Book now" button sends people. utm_source tags the visit as coming from this site. */
+  bookingUrl: "https://aroundu.in/plan/kolli-hills-kolli-7BBD1?utm_source=trilyt",
   name: "Kolli Hills",
   region: "Namakkal, Tamil Nadu",
 

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { TRILYT_INSTAGRAM_DM_URL } from "@/lib/links";
 import { UPCOMING_RIDE as RIDE } from "@/lib/rides";
 import { DaysToGo } from "@/components/site/DaysToGo";
 
@@ -100,12 +99,12 @@ export function UpcomingRide() {
                   See the full ride
                 </Link>
                 <a
-                  href={TRILYT_INSTAGRAM_DM_URL}
+                  href={RIDE.bookingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-label-md rounded-half border border-white/25 px-xl py-md text-white transition-colors hover:border-white/60"
                 >
-                  Book on Instagram
+                  Book now
                 </a>
               </div>
             </div>

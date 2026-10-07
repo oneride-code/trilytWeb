@@ -6,7 +6,6 @@ import { RideGallery } from "@/components/site/RideGallery";
 import { HeroSlideshow } from "@/components/site/HeroSlideshow";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Glow } from "@/components/ui/Glow";
-import { TRILYT_INSTAGRAM_DM_URL } from "@/lib/links";
 import { UPCOMING_RIDE } from "@/lib/rides";
 import {
   IconBike,
@@ -40,7 +39,7 @@ const INCLUDED = [
   {
     icon: IconTent,
     title: "Stay",
-    body: "A night under canvas in the hills, pitched and ready when you arrive.",
+    body: "A night under canvas in the hills, pitched and ready when you arrive. Each tent is shared between two people.",
   },
   {
     icon: IconPlate,
@@ -155,7 +154,7 @@ const FAQS = [
   },
   {
     q: "How do I book?",
-    a: "Send us a DM on Instagram. We'll confirm your spot, take your food preference, and share the meeting point.",
+    a: "Tap Book now and reserve your spot on our booking page. The exact meeting point and departure time are confirmed on booking.",
   },
 ];
 
@@ -251,12 +250,12 @@ export default function KolliHillsRidePage() {
               </div>
 
               <a
-                href={TRILYT_INSTAGRAM_DM_URL}
+                href={RIDE.bookingUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-label-lg inline-flex items-center justify-center rounded-half bg-white px-[32px] py-lg text-text-primary transition-opacity hover:opacity-90 sm:ml-auto"
               >
-                Book on Instagram
+                Book now
               </a>
             </div>
 
@@ -503,15 +502,15 @@ export default function KolliHillsRidePage() {
               {RIDE.dateLabel} · from {RIDE.startFrom} · {RIDE.priceNow}
             </p>
             <a
-              href={TRILYT_INSTAGRAM_DM_URL}
+              href={RIDE.bookingUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-label-lg mt-xl inline-flex items-center justify-center rounded-half bg-accent-orange px-[36px] py-lg text-[#1a0d06] transition-opacity hover:opacity-90"
             >
-              Book on Instagram
+              Book now
             </a>
             <p className="text-caption-md mt-md text-white/40">
-              We&rsquo;ll confirm your spot and food preference over DM.
+              Limited spots &mdash; book early to hold yours.
             </p>
           </div>
         </section>
@@ -521,6 +520,7 @@ export default function KolliHillsRidePage() {
         priceWas={RIDE.priceWas}
         priceNow={RIDE.priceNow}
         seatsNote={RIDE.seatsNote}
+        bookingUrl={RIDE.bookingUrl}
       />
 
       <Footer />

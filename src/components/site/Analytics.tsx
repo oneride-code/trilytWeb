@@ -6,7 +6,7 @@ import { GA_MEASUREMENT_ID } from "@/lib/analytics";
  *
  * Production only: local dev and preview traffic would otherwise show up as
  * real visits. Page views on client-side navigation and clicks on outbound
- * links (e.g. "Book on Instagram") are picked up by GA4's enhanced
+ * links (e.g. "Book now") are picked up by GA4's enhanced
  * measurement, so no per-page code is needed.
  */
 export function Analytics() {
