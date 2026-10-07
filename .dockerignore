@@ -1,0 +1,11 @@
+node_modules
+.next
+.git
+.claude
+npm-debug.log*
+.DS_Store
+*.local
+.env*
+README.md
+AGENTS.md
+CLAUDE.md

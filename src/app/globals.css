@@ -1,0 +1,323 @@
+@import "tailwindcss";
+
+/*
+ * Trilyt design tokens
+ * Source: Figma — "Trilyt" / Design system page (file r2yheI0iL4FlQ1sNkCW3Go)
+ * Extracted via Figma MCP `get_variable_defs`.
+ *
+ * Light values are confirmed from Figma.
+ * Dark values marked DERIVED are an inversion of the neutral ramp and still
+ * need verification against the Dark variants in the Figma file.
+ */
+
+/* Explicit theme override wins over the system preference. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  /* ---- Text ---- */
+  --text-primary: #141414;
+  --text-secondary: #404040;
+  --text-tertiary: #737373;
+  --text-disabled: #a3a3a3;
+  --text-brand: #141414;
+  --text-on-brand: #fafafa;
+  --text-error: #b91c1c;
+  --text-success: #15803d;
+  --text-on-success: #f6fef8;
+  --text-info: #1d4ed8;
+  --text-warning: #92400e;
+
+  /* ---- Icon ---- */
+  --icon-primary: #141414;
+  --icon-secondary: #404040;
+  --icon-tertiary: #737373;
+  --icon-success: #15803d;
+  --icon-inverse: #fafafa;
+
+  /* ---- Background ---- */
+  --bg-page: #ffffff;
+  --bg-brand: #141414;
+  --bg-brand-subtle: #f0f0f0;
+  --bg-card: #fafafa;
+  --bg-disabled: #fafafa;
+  --bg-error: #dc2626;
+  --bg-error-subtle: #fef6f6;
+  --bg-success: #16a34a;
+  --bg-success-subtle: #f6fef8;
+  --bg-info-subtle: #f5f9ff;
+  --bg-warning-subtle: #fffdf5;
+
+  /* ---- Border ---- */
+  --border-default: #e5e5e5;
+  --border-subtle: #f0f0f0;
+  --border-brand: #141414;
+  --border-brand-subtle: #d4d4d4;
+  --border-disabled: #d4d4d4;
+  --border-error: #b91c1c;
+  --border-success: #15803d;
+  --border-success-subtle: #dcfce7;
+
+  /* ---- Accent ---- */
+  /* Orange/500 straight from Figma. Decorative only — it measures 2.84:1 on
+   * white, below the 3:1 large-text floor, so it must not carry text. */
+  --accent-orange: #ff6b35;
+  --accent-yellow: #ffb703;
+  /* Same hue darkened until it clears large-text contrast (4.06:1 on white).
+   * Use this whenever orange has to be readable. */
+  --accent-orange-ink: #dc4f1c;
+
+  /* ---- Elevation (Shadow/Card) ---- */
+  --card-shadow: 0 2px 8px 0 #0000000a, 0 1px 2px 0 #0000000f;
+}
+
+/* System dark — applies only when the user has not pinned a theme. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --text-primary: #fafafa;
+    --text-secondary: #d4d4d4;
+    --text-tertiary: #a3a3a3;
+    --text-disabled: #737373;
+    --text-brand: #fafafa;
+    --text-on-brand: #141414;
+    --text-error: #f87171; /* DERIVED */
+    --text-success: #4ade80; /* DERIVED */
+    --text-on-success: #052e16;
+    --text-info: #93c5fd; /* DERIVED */
+    --text-warning: #fcd34d; /* DERIVED */
+
+    --icon-primary: #fafafa;
+    --icon-secondary: #d4d4d4;
+    --icon-tertiary: #a3a3a3;
+    --icon-success: #4ade80; /* DERIVED */
+    --icon-inverse: #141414;
+
+    --bg-page: #0a0a0a; /* DERIVED */
+    --bg-brand: #fafafa;
+    --bg-brand-subtle: #2e2e2e; /* confirmed from Figma dark mode */
+    --bg-card: #1c1c1c; /* DERIVED */
+    --bg-disabled: #2e2e2e; /* DERIVED */
+    --bg-error: #dc2626;
+    --bg-error-subtle: #2a1214; /* DERIVED */
+    --bg-success: #16a34a;
+    --bg-success-subtle: #052e16; /* confirmed from Figma dark mode */
+    --bg-info-subtle: #10192e; /* DERIVED */
+    --bg-warning-subtle: #2a2110; /* DERIVED */
+
+    --border-default: #2e2e2e; /* DERIVED */
+    --border-subtle: #1c1c1c; /* DERIVED */
+    --border-brand: #fafafa;
+    --border-brand-subtle: #404040; /* DERIVED */
+    --border-disabled: #404040; /* DERIVED */
+    --border-error: #f87171; /* DERIVED */
+    --border-success: #4ade80; /* DERIVED */
+    --border-success-subtle: #14532d; /* DERIVED */
+
+    /* On a dark ground the vivid orange is already readable — lift, don't darken. */
+    --accent-orange-ink: #ff8b4c;
+
+    --card-shadow: 0 2px 8px 0 #00000052, 0 1px 2px 0 #0000003d;
+  }
+}
+
+/* Explicit dark — the toggle must win in both directions. */
+:root[data-theme="dark"] {
+  --text-primary: #fafafa;
+  --text-secondary: #d4d4d4;
+  --text-tertiary: #a3a3a3;
+  --text-disabled: #737373;
+  --text-brand: #fafafa;
+  --text-on-brand: #141414;
+  --text-error: #f87171;
+  --text-success: #4ade80;
+  --text-on-success: #052e16;
+  --text-info: #93c5fd;
+  --text-warning: #fcd34d;
+
+  --icon-primary: #fafafa;
+  --icon-secondary: #d4d4d4;
+  --icon-tertiary: #a3a3a3;
+  --icon-success: #4ade80;
+  --icon-inverse: #141414;
+
+  --bg-page: #0a0a0a;
+  --bg-brand: #fafafa;
+  --bg-brand-subtle: #2e2e2e;
+  --bg-card: #1c1c1c;
+  --bg-disabled: #2e2e2e;
+  --bg-error: #dc2626;
+  --bg-error-subtle: #2a1214;
+  --bg-success: #16a34a;
+  --bg-success-subtle: #052e16;
+  --bg-info-subtle: #10192e;
+  --bg-warning-subtle: #2a2110;
+
+  --border-default: #2e2e2e;
+  --border-subtle: #1c1c1c;
+  --border-brand: #fafafa;
+  --border-brand-subtle: #404040;
+  --border-disabled: #404040;
+  --border-error: #f87171;
+  --border-success: #4ade80;
+  --border-success-subtle: #14532d;
+
+  --accent-orange-ink: #ff8b4c;
+
+  --card-shadow: 0 2px 8px 0 #00000052, 0 1px 2px 0 #0000003d;
+}
+
+@theme inline {
+  /* Colors → utilities like bg-card, text-primary, border-default */
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-disabled: var(--text-disabled);
+  --color-text-brand: var(--text-brand);
+  --color-text-on-brand: var(--text-on-brand);
+  --color-text-error: var(--text-error);
+  --color-text-success: var(--text-success);
+  --color-text-on-success: var(--text-on-success);
+  --color-text-info: var(--text-info);
+  --color-text-warning: var(--text-warning);
+
+  --color-icon-primary: var(--icon-primary);
+  --color-icon-secondary: var(--icon-secondary);
+  --color-icon-tertiary: var(--icon-tertiary);
+  --color-icon-success: var(--icon-success);
+  --color-icon-inverse: var(--icon-inverse);
+
+  --color-page: var(--bg-page);
+  --color-brand: var(--bg-brand);
+  --color-brand-subtle: var(--bg-brand-subtle);
+  --color-card: var(--bg-card);
+  --color-disabled: var(--bg-disabled);
+  --color-error: var(--bg-error);
+  --color-error-subtle: var(--bg-error-subtle);
+  --color-success: var(--bg-success);
+  --color-success-subtle: var(--bg-success-subtle);
+  --color-info-subtle: var(--bg-info-subtle);
+  --color-warning-subtle: var(--bg-warning-subtle);
+
+  --color-border-default: var(--border-default);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-brand: var(--border-brand);
+  --color-border-brand-subtle: var(--border-brand-subtle);
+  --color-border-disabled: var(--border-disabled);
+  --color-border-error: var(--border-error);
+  --color-border-success: var(--border-success);
+  --color-border-success-subtle: var(--border-success-subtle);
+
+  --color-accent-orange: var(--accent-orange);
+  --color-accent-yellow: var(--accent-yellow);
+  --color-accent-orange-ink: var(--accent-orange-ink);
+
+  /* Typography */
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* Figma spacing scale (px) */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+
+  /* Figma border-radius scale */
+  --radius-none: 0px;
+  --radius-lg: 12px;
+  --radius-3xl: 24px;
+  --radius-half: 50px;
+
+  --shadow-card: var(--card-shadow);
+}
+
+/*
+ * Named type styles from Figma.
+ * letter-spacing values are Figma's native px floats — visually negligible
+ * but kept faithful to the source.
+ */
+@utility text-headline-md {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+@utility text-label-lg {
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+@utility text-label-md-bold {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01px;
+}
+@utility text-label-md {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.01px;
+}
+@utility text-label-sm {
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01px;
+}
+@utility text-body-lg {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+@utility text-body-sm {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+@utility text-caption-md {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: 0.02px;
+}
+@utility text-caption-sm {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 400;
+  letter-spacing: 0.02px;
+}
+
+body {
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Keyboard focus picks up the brand orange (the text-safe variant, so the ring
+ * clears the 3:1 floor for non-text UI). */
+:where(a, button, input, textarea, select, summary):focus-visible {
+  outline: 2px solid var(--accent-orange-ink);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/*
+ * Sticky scroll-through sections collapse to plain stacked blocks when the
+ * viewer prefers reduced motion — no pinning, no extra scroll height.
+ */
+@media (prefers-reduced-motion: reduce) {
+  [data-sticky-scroll] {
+    height: auto !important;
+  }
+  [data-sticky-inner] {
+    position: static !important;
+    height: auto !important;
+    padding-block: 64px;
+  }
+}
