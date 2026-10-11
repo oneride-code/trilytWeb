@@ -13,7 +13,7 @@
 export const UPCOMING_RIDE = {
   slug: "kolli-hills",
   /** Used to compute the live countdown. */
-  dateISO: "2026-10-10",
+  dateISO: "2026-10-17",
   href: "/rides/kolli-hills",
   /** Where every "Book now" button sends people. utm_source tags the visit as coming from this site. */
   bookingUrl: "https://aroundu.in/plan/kolli-hills-kolli-7BBD1?utm_source=trilyt",
@@ -24,9 +24,11 @@ export const UPCOMING_RIDE = {
   // Using the verifiable figure; change here if you meant something else.
   hairpins: 70,
 
-  dateLabel: "Sat 10 – Sun 11 October 2026",
-  dateShort: "10–11 Oct",
-  dayNumerals: "10–11",
+  dateLabel: "Sat 17 – Sun 18 October 2026",
+  dateShort: "17–18 Oct",
+  /** Day-of-month for the poster-style date blocks and the itinerary. */
+  dayStart: "17",
+  dayEnd: "18",
   monthYear: "October 2026",
   weekdays: "Saturday – Sunday",
 

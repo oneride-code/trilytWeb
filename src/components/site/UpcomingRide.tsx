@@ -46,10 +46,10 @@ export function UpcomingRide() {
             <div className="mt-xl flex items-center gap-lg">
               <div className="flex items-baseline gap-[2px] text-white">
                 <span className="text-[32px] font-extrabold leading-none tracking-[-0.03em]">
-                  10
+                  {RIDE.dayStart}
                 </span>
                 <span className="text-[32px] font-extrabold leading-none tracking-[-0.03em] text-accent-orange">
-                  –11
+                  –{RIDE.dayEnd}
                 </span>
               </div>
               <span aria-hidden="true" className="h-[30px] w-px bg-white/25" />

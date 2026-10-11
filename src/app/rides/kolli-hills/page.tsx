@@ -28,7 +28,7 @@ import {
 const RIDE = UPCOMING_RIDE;
 
 export const metadata: Metadata = {
-  title: "Kolli Hills Ride — 10 October",
+  title: `Kolli Hills Ride — ${RIDE.dayStart} October`,
   description:
     "Two days to Kolli Hills: 70 hairpin bends, camping, a bonfire with music, and the Agaya Gangai waterfalls. Stay, breakfast, dinner and a tech-supported group ride included. ₹2,799.",
 };
@@ -73,7 +73,7 @@ const INCLUDED = [
 const ITINERARY = [
   {
     day: "Day 1",
-    date: "Saturday, 10 October",
+    date: `Saturday, ${RIDE.dayStart} October`,
     title: "The climb",
     meals: "Breakfast on the road · Dinner at camp",
     stops: [
@@ -101,7 +101,7 @@ const ITINERARY = [
   },
   {
     day: "Day 2",
-    date: "Sunday, 11 October",
+    date: `Sunday, ${RIDE.dayEnd} October`,
     title: "Water and the way home",
     meals: "Breakfast at camp",
     stops: [
@@ -209,10 +209,10 @@ export default function KolliHillsRidePage() {
             <div className="flex items-center gap-lg">
               <div className="flex items-baseline gap-[2px] text-white">
                 <span className="text-[38px] font-extrabold leading-none tracking-[-0.03em]">
-                  10
+                  {RIDE.dayStart}
                 </span>
                 <span className="text-[38px] font-extrabold leading-none tracking-[-0.03em] text-accent-orange">
-                  –11
+                  –{RIDE.dayEnd}
                 </span>
               </div>
               <span aria-hidden="true" className="h-[34px] w-px bg-white/25" />
