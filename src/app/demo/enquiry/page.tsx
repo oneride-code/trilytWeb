@@ -1,44 +1,47 @@
 "use client";
 
 /**
- * Operator enquiry. No backend yet: the form composes the email and opens the
- * operator's mail app addressed to contact@accelryde.com, with a copy button
- * as the fallback. Swap `send()` for an API route when there is one.
+ * Operator enquiry. Submitting POSTs to /api/enquiry, which emails
+ * contact@accelryde.com through Resend. If that route answers 503 (no key
+ * configured) or cannot be reached, the form falls back to opening the
+ * visitor's mail app with the same draft, with a copy button as the last resort.
  */
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Check, Copy, Mail } from "lucide-react";
+import { ArrowLeft, Check, Copy, Mail, Send } from "lucide-react";
 import { Btn, Field, Note, ThemeToggle } from "@/components/demo/ui";
 import { TrilytLogo } from "@/components/demo/Brand";
+import { draftEnquiry, EMPTY_ENQUIRY, ENQUIRY_TO as TO, SELLS, VOLUME, type EnquiryForm as Form } from "@/lib/enquiry";
 
-const TO = "contact@accelryde.com";
-const SELLS = ["Treks and expeditions", "Road trips and bike tours", "Weekend getaways and camps", "City, food and heritage walks", "Water sports and adventure", "Group tours and yatras", "Something else"];
-const VOLUME = ["Under 10 a month", "10–30 a month", "30–100 a month", "More than 100 a month"];
-
-type Form = { operator: string; name: string; phone: string; email: string; city: string; sells: string; volume: string; tools: string; message: string };
-const EMPTY: Form = { operator: "", name: "", phone: "", email: "", city: "", sells: SELLS[0], volume: VOLUME[1], tools: "", message: "" };
-
-function draft(f: Form) {
-  const subject = `Trilyt enquiry: ${f.operator || "travel operator"}${f.city ? `, ${f.city}` : ""}`;
-  const body = [
-    `Hi Trilyt team,`, ``,
-    `We run ${f.operator || "a travel business"}${f.city ? ` in ${f.city}` : ""} and would like to see Trilyt for our bookings and payments.`, ``,
-    `Operator: ${f.operator}`, `Contact: ${f.name}`, `Phone / WhatsApp: ${f.phone}`, `Email: ${f.email}`, `City: ${f.city}`,
-    `What we sell: ${f.sells}`, `Bookings: ${f.volume}`, `How we take bookings today: ${f.tools || "—"}`, ``,
-    f.message ? `Notes: ${f.message}` : ``, ``, `Please call or WhatsApp to set up a walkthrough.`, ``, f.name,
-  ].join("\n");
-  return { subject, body };
-}
+type Status = "idle" | "sending" | "sent" | "fallback";
 
 export default function EnquiryPage() {
-  const [f, setF] = useState<Form>(EMPTY);
-  const [sent, setSent] = useState(false);
+  const [f, setF] = useState<Form>(EMPTY_ENQUIRY);
+  const [status, setStatus] = useState<Status>("idle");
+  const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
-  const set = (k: keyof Form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setF((s) => ({ ...s, [k]: e.target.value }));
+  const set = (k: keyof Form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => { setF((s) => ({ ...s, [k]: e.target.value })); if (status !== "idle") { setStatus("idle"); setError(null); } };
   const ok = f.operator.trim() && f.name.trim() && f.phone.replace(/\D/g, "").length >= 10;
-  const { subject, body } = draft(f);
+  const { subject, body } = draftEnquiry(f);
   const mailto = `mailto:${TO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  const send = (e: React.FormEvent) => { e.preventDefault(); if (!ok) return; setSent(true); window.location.href = mailto; };
+
+  const fallback = () => { setStatus("fallback"); window.location.href = mailto; };
+  const send = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!ok || status === "sending") return;
+    setStatus("sending"); setError(null);
+    let res: Response;
+    try {
+      res = await fetch("/api/enquiry", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(f) });
+    } catch { fallback(); return; }
+    if (res.ok) { setStatus("sent"); return; }
+    if (res.status === 400 || res.status === 429) {
+      // Our own validation or rate limit: tell them, keep the form editable.
+      const data = await res.json().catch(() => null) as { error?: string } | null;
+      setError(data?.error ?? "Something in the form needs fixing."); setStatus("idle"); return;
+    }
+    fallback(); // 503 (not configured), 502 (Resend refused) or anything else.
+  };
   const copy = async () => { try { await navigator.clipboard.writeText(`To: ${TO}\nSubject: ${subject}\n\n${body}`); setCopied(true); window.setTimeout(() => setCopied(false), 2000); } catch {} };
 
   return (
@@ -55,7 +58,7 @@ export default function EnquiryPage() {
         <div className="max-w-[560px]">
           <p className="eyebrow">Enquiry</p>
           <h1 className="mt-2 text-[32px] font-semibold leading-[1.1] tracking-[-0.02em] sm:text-[40px]">Tell us about your departures. We&apos;ll call you back.</h1>
-          <p className="mt-4 text-[16px] leading-relaxed text-[var(--d-ink-2)]">Fill in the form and it drafts an email to <span className="font-medium text-[var(--d-ink)]">{TO}</span> with your details; send it from your own mail app. We reply within one working day and set the first five operators up ourselves.</p>
+          <p className="mt-4 text-[16px] leading-relaxed text-[var(--d-ink-2)]">Fill in the form and it reaches <span className="font-medium text-[var(--d-ink)]">{TO}</span> straight away. We reply within one working day and set the first five operators up ourselves.</p>
           <ul className="mt-6 flex flex-col gap-2 text-[14px] text-[var(--d-ink-2)]">
             {["A 30-minute walkthrough on your own packages", "Your Razorpay account connected, or a new one opened with you", "No monthly fee: 1.75% per online order, capped at ₹999"].map((t) => <li key={t} className="flex gap-2"><Check size={15} className="mt-0.5 shrink-0 text-[var(--d-accent-ink)]" />{t}</li>)}
           </ul>
@@ -74,13 +77,23 @@ export default function EnquiryPage() {
             <Field label="How you take bookings today" className="sm:col-span-2" hint="WhatsApp and a bank transfer, a Google form, an agency, another tool."><input id="tools" className="input" value={f.tools} onChange={set("tools")} /></Field>
             <Field label="Anything else" className="sm:col-span-2"><textarea id="message" className="textarea" rows={3} value={f.message} onChange={set("message")} /></Field>
           </div>
-          <Btn type="submit" variant="accent" size="lg" className="w-full" disabled={!ok}><Mail size={15} /> Open the email draft</Btn>
-          {!ok && <p className="text-center text-[12px] text-[var(--d-ink-3)]">Operator, your name and a 10-digit phone number are needed.</p>}
-          {sent && (
+          {status === "sent" ? (
+            <Note tone="accent"><span className="flex items-start gap-2"><Check size={15} className="mt-0.5 shrink-0" /><span>Sent. We&apos;ll call you back on {f.phone} within one working day.</span></span></Note>
+          ) : (
+            <Btn type="submit" variant="accent" size="lg" className="w-full" disabled={!ok || status === "sending"}>
+              {status === "sending" ? <>Sending…</> : <><Send size={15} /> Send the enquiry</>}
+            </Btn>
+          )}
+          {!ok && status !== "sent" && <p className="text-center text-[12px] text-[var(--d-ink-3)]">Operator, your name and a 10-digit phone number are needed.</p>}
+          {error && <Note tone="warn">{error}</Note>}
+          {status === "fallback" && (
             <div className="flex flex-col gap-3">
-              <Note>Your mail app should have opened with the draft below, addressed to {TO}. If it did not, copy it and send it from anywhere.</Note>
+              <Note>We couldn&apos;t send this from the site just now, so your mail app should have opened with the draft below, addressed to {TO}. If it did not, copy it and send it from anywhere.</Note>
               <pre className="card-2 max-h-[260px] overflow-auto whitespace-pre-wrap p-3 text-[12.5px] leading-relaxed text-[var(--d-ink-2)]">{`To: ${TO}\nSubject: ${subject}\n\n${body}`}</pre>
-              <Btn onClick={copy}>{copied ? <><Check size={14} /> Copied</> : <><Copy size={14} /> Copy the email</>}</Btn>
+              <div className="grid gap-2 sm:grid-cols-2">
+                <Btn href={mailto}><Mail size={14} /> Open the email draft</Btn>
+                <Btn onClick={copy}>{copied ? <><Check size={14} /> Copied</> : <><Copy size={14} /> Copy the email</>}</Btn>
+              </div>
             </div>
           )}
         </form>
