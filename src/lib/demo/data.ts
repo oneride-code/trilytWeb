@@ -332,8 +332,13 @@ export function pkgExtras(p: Pkg) {
 // ---------- helpers ----------
 export const fmt = (n: number) => "₹" + Math.round(n).toLocaleString("en-IN");
 export const d = (s: string) => new Date(s + "T00:00:00+05:30");
-export const dstr = (s: string) => d(s).toLocaleDateString("en-IN", { day: "numeric", month: "short" });
-export const dlong = (s: string) => d(s).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+/** All dates are IST, on the server (UTC container) and in the browser alike, or hydration disagrees. */
+export const TZ = "Asia/Kolkata";
+export const dstr = (s: string) => d(s).toLocaleDateString("en-IN", { day: "numeric", month: "short", timeZone: TZ });
+export const dlong = (s: string) => d(s).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: TZ });
+export const dayOf = (s: string) => Number(s.slice(8, 10));
+export const monthShort = (s: string) => d(s).toLocaleDateString("en-IN", { month: "short", timeZone: TZ });
+export const monthLong = (s: string) => d(s).toLocaleDateString("en-IN", { month: "long", year: "numeric", timeZone: TZ });
 export const byId = <T extends { id: string }>(arr: T[], id: string) => arr.find((x) => x.id === id);
 export const pkgOfDep = (dep: Departure) => byId(packages, dep.pkg)!;
 export const depOf = (o: Order) => byId(departures, o.dep)!;
@@ -387,7 +392,7 @@ export function ruleLabel(rules: [number, number][], i: number) {
 
 export const seatsLeft = (dp: Departure) => dp.seats - dp.booked;
 export const balanceDue = (dep: Departure) => new Date(d(dep.start).getTime() - 14 * 86400000);
-export const fmtDate = (x: Date) => x.toLocaleDateString("en-IN", { day: "numeric", month: "short" });
+export const fmtDate = (x: Date) => x.toLocaleDateString("en-IN", { day: "numeric", month: "short", timeZone: TZ });
 export const daysUntil = (s: string) => Math.round((d(s).getTime() - TODAY.getTime()) / 86400000);
 
 /** Payment schedule: booking amount at order, balance 14 days before departure. */

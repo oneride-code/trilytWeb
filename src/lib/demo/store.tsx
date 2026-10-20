@@ -7,7 +7,7 @@
  */
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import {
-  TODAY_S, bookingAmt, departures, initialOrders, orderDue, refundFor, travellers as seedTravellers,
+  TODAY_S, bookingAmt, departures, dstr, initialOrders, orderDue, refundFor, travellers as seedTravellers,
   type CheckState, type Order, type Payment, type Role, type Source, type Traveller,
 } from "./data";
 
@@ -94,7 +94,7 @@ export function DemoStoreProvider({ children, initialTheme = "light" }: { childr
     update(id, (o) => {
       const from = departures.find((x) => x.id === o.dep), to = departures.find((x) => x.id === depId);
       if (from) from.booked -= o.lines.length; if (to) to.booked += o.lines.length;
-      return withLog({ ...o, dep: depId }, who, `Moved to the ${to ? new Date(to.start + "T00:00:00+05:30").toLocaleDateString("en-IN", { day: "numeric", month: "short" }) : ""} departure, traveller notified on WhatsApp`);
+      return withLog({ ...o, dep: depId }, who, `Moved to the ${to ? dstr(to.start) : ""} departure, traveller notified on WhatsApp`);
     });
   }, [who]);
   const addTraveller = useCallback((id: string, name: string, phone: string) => {

@@ -6,7 +6,7 @@ import { Plus, ArrowRight } from "lucide-react";
 import { Shell, PageTitle } from "@/components/demo/Shell";
 import { Btn, Meter, Pill } from "@/components/demo/ui";
 import { useDemo } from "@/lib/demo/store";
-import { TODAY, byId, d, daysUntil, departures, dstr, fmt, orderDue, orderPaid, packages, seatsLeft, type Departure } from "@/lib/demo/data";
+import { TODAY, byId, d, daysUntil, departures, dstr, fmt, monthLong, orderDue, orderPaid, packages, seatsLeft, type Departure } from "@/lib/demo/data";
 
 export function SeatPill({ dp, closed }: { dp: Departure; closed?: boolean }) {
   const left = seatsLeft(dp);
@@ -22,7 +22,7 @@ export default function DeparturesPage() {
   const router = useRouter();
   const all = role === "guide" ? departures.filter((x) => x.guide === "Tenzin Norbu") : departures;
   const list = [...all].sort((a, b) => d(a.start).getTime() - d(b.start).getTime());
-  const months = Array.from(new Set(list.map((x) => d(x.start).toLocaleDateString("en-IN", { month: "long", year: "numeric" }))));
+  const months = Array.from(new Set(list.map((x) => monthLong(x.start))));
 
   return (
     <Shell title="Departures" actions={(role === "owner" || role === "ops") && <Btn variant="primary" onClick={() => notify("Departure form (demo)")}><Plus size={14} /> Departure</Btn>} wide>
@@ -34,7 +34,7 @@ export default function DeparturesPage() {
             <table className="tbl">
               <thead><tr><th>Dates</th><th>Package</th><th>Guide</th><th style={{ width: 220 }}>Seats</th><th className="num">Collected</th><th className="num">Still due</th><th>Status</th><th></th></tr></thead>
               <tbody>
-                {list.filter((x) => d(x.start).toLocaleDateString("en-IN", { month: "long", year: "numeric" }) === m).map((dp) => {
+                {list.filter((x) => monthLong(x.start) === m).map((dp) => {
                   const p = byId(packages, dp.pkg)!; const os = orders.filter((o) => o.dep === dp.id && o.status !== "cancelled");
                   const col = os.reduce((s, o) => s + orderPaid(o), 0); const due = os.reduce((s, o) => s + orderDue(o), 0); const isClosed = closed.includes(dp.id);
                   return (

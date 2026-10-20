@@ -5,7 +5,7 @@ import { LayoutGrid, ReceiptText, CalendarDays, Users, Package, Wallet, ShieldCh
 import { Avatar, Meter, StatusPill } from "../ui";
 import { TrilytMark } from "../Brand";
 import { useDemo } from "@/lib/demo/store";
-import { TODAY, byId, d, departures, dueItems, fee, fmt, fmtDate, orderDue, packages, seatsLeft } from "@/lib/demo/data";
+import { TODAY, byId, d, dayOf, departures, dueItems, fee, fmt, fmtDate, monthShort, orderDue, packages, seatsLeft } from "@/lib/demo/data";
 
 const NAV = [["Overview", LayoutGrid, true], ["Bookings", ReceiptText, false], ["Departures", CalendarDays, false], ["Travellers", Users, false], ["Packages", Package, false], ["Agents", Handshake, false], ["Payments", Wallet, false], ["Team and roles", ShieldCheck, false]] as const;
 
@@ -45,7 +45,7 @@ export function Preview() {
                 </ul>
               </div>
               <div className="card"><p className="border-b border-[var(--d-line)] px-3 py-2 text-[11.5px] font-semibold">Upcoming departures</p>
-                <ul className="rows">{upcoming.map((x) => <li key={x.id} className="grid grid-cols-[34px_1fr_auto] items-center gap-2 px-3 py-1.5"><span className="leading-tight"><span className="tnum block text-[14px] font-semibold">{d(x.start).getDate()}</span><span className="block text-[9px] uppercase text-[var(--d-ink-3)]">{d(x.start).toLocaleDateString("en-IN", { month: "short" })}</span></span><span className="min-w-0"><span className="block truncate font-medium">{byId(packages, x.pkg)!.name}</span><span className="mt-1 block"><Meter value={x.booked} max={x.seats} /></span></span><span className="tnum text-[10.5px] text-[var(--d-ink-2)]">{x.booked}/{x.seats}{seatsLeft(x) <= 3 && seatsLeft(x) > 0 ? ` · ${seatsLeft(x)} left` : ""}</span></li>)}</ul>
+                <ul className="rows">{upcoming.map((x) => <li key={x.id} className="grid grid-cols-[34px_1fr_auto] items-center gap-2 px-3 py-1.5"><span className="leading-tight"><span className="tnum block text-[14px] font-semibold">{dayOf(x.start)}</span><span className="block text-[9px] uppercase text-[var(--d-ink-3)]">{monthShort(x.start)}</span></span><span className="min-w-0"><span className="block truncate font-medium">{byId(packages, x.pkg)!.name}</span><span className="mt-1 block"><Meter value={x.booked} max={x.seats} /></span></span><span className="tnum text-[10.5px] text-[var(--d-ink-2)]">{x.booked}/{x.seats}{seatsLeft(x) <= 3 && seatsLeft(x) > 0 ? ` · ${seatsLeft(x)} left` : ""}</span></li>)}</ul>
               </div>
             </div>
           </div>

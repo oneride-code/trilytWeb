@@ -6,7 +6,7 @@ import { Shell } from "@/components/demo/Shell";
 import { Avatar, Btn, Meter, Stat, StatusPill } from "@/components/demo/ui";
 import { NewBookingButton } from "@/components/demo/actions";
 import { useDemo } from "@/lib/demo/store";
-import { TODAY, byId, d, daysUntil, departures, dstr, dueItems, fee, fmt, fmtDate, orderDue, orderPaid, orderTotal, packages, seatsLeft, weeklyBookings } from "@/lib/demo/data";
+import { TODAY, TZ, byId, d, dayOf, daysUntil, departures, dstr, dueItems, fee, fmt, fmtDate, monthShort, orderDue, orderPaid, orderTotal, packages, seatsLeft, weeklyBookings } from "@/lib/demo/data";
 
 function Chart({ data }: { data: number[] }) {
   const w = 560, h = 120, pad = 6, max = Math.max(...data);
@@ -39,7 +39,7 @@ export default function Overview() {
   return (
     <Shell title="Overview" actions={(role === "owner" || role === "ops") && <NewBookingButton primary />}>
       <div>
-        <p className="eyebrow">{TODAY.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" })}</p>
+        <p className="eyebrow">{TODAY.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", timeZone: TZ })}</p>
         <h1 className="mt-1 text-[22px] font-semibold leading-tight">Good morning, {name}.</h1>
         <p className="mt-0.5 text-[13.5px] text-[var(--d-ink-2)]">{upcoming.filter((x) => daysUntil(x.start) <= 7).length} departures this week. {overdue.length ? `${overdue.length} balance${overdue.length > 1 ? "s" : ""} overdue.` : "No balances overdue."} {pending.length ? `${pending.length} agent order waiting.` : ""}</p>
       </div>
@@ -84,7 +84,7 @@ export default function Overview() {
           <ul className="rows">
             {upcoming.map((x) => { const p = byId(packages, x.pkg)!; const left = seatsLeft(x); return (
               <li key={x.id}><Link href={`/demo/app/departures/${x.id}`} className="row-hover grid grid-cols-[52px_1fr_auto] items-center gap-3 px-4 py-2.5">
-                <span className="leading-tight"><span className="block text-[18px] font-semibold tnum">{d(x.start).getDate()}</span><span className="block text-[11px] uppercase text-[var(--d-ink-3)]">{d(x.start).toLocaleDateString("en-IN", { month: "short" })}</span></span>
+                <span className="leading-tight"><span className="block text-[18px] font-semibold tnum">{dayOf(x.start)}</span><span className="block text-[11px] uppercase text-[var(--d-ink-3)]">{monthShort(x.start)}</span></span>
                 <span className="min-w-0"><span className="block truncate text-[13.5px] font-medium">{p.name}</span><span className="mt-1 block"><Meter value={x.booked} max={x.seats} /></span></span>
                 <span className="text-right text-[12.5px] text-[var(--d-ink-2)]"><span className="tnum block font-medium text-[var(--d-ink)]">{x.booked}/{x.seats}</span>{left === 0 ? "full" : left <= 3 ? `${left} left` : `${left} open`}</span>
               </Link></li>
