@@ -8,7 +8,7 @@ import { Logo } from "@/components/ui/Logo";
 const NAV = [
   { label: "About", href: "/#about" },
   { label: "Why Trilyt", href: "/#why" },
-  { label: "Rides", href: "/rides/kolli-hills" },
+  { label: "For operators", href: "/#operators" },
   { label: "Contact us", href: "/contact" },
 ];
 

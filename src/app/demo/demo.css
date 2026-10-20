@@ -1,0 +1,131 @@
+/*
+ * Demo surface tokens, layered on the site tokens in globals.css.
+ * Direction: the operator's desk. Paper surface, one ink, one brand accent
+ * on the next action only, 1px rules instead of shadows, tabular figures.
+ * Status colours are amber and red; "good" is plain ink.
+ */
+.demo {
+  --d-bg: #f7f7f4;
+  --d-surface: #ffffff;
+  --d-surface-2: #f1f1ed;
+  --d-ink: #16181d;
+  --d-ink-2: #51555d;
+  --d-ink-3: #8b8f97;
+  --d-line: #e5e4df;
+  --d-line-strong: #cfcec8;
+  --d-accent: #ff6b35;
+  --d-accent-ink: #c84f1f;
+  --d-accent-soft: #fff1ea;
+  --d-warn: #9a6207; --d-warn-soft: #fbf3e2;
+  --d-bad: #c0352a; --d-bad-soft: #fbe9e6;
+  --d-focus: #ff6b35;
+  color-scheme: light;
+  background: var(--d-bg);
+  color: var(--d-ink);
+}
+:root[data-theme="dark"] .demo {
+  --d-bg: #0f1012;
+  --d-surface: #16181b;
+  --d-surface-2: #1d2024;
+  --d-ink: #eeeeea;
+  --d-ink-2: #b4b7bd;
+  --d-ink-3: #7e838b;
+  --d-line: #272a2f;
+  --d-line-strong: #383c42;
+  --d-accent: #ff7a45;
+  --d-accent-ink: #ff9868;
+  --d-accent-soft: #2b1a12;
+  --d-warn: #e0b253; --d-warn-soft: #2a2210;
+  --d-bad: #f0705f; --d-bad-soft: #2e1714;
+  color-scheme: dark;
+}
+
+.demo { font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.5; }
+.demo .mono { font-family: var(--font-mono), ui-monospace, Menlo, monospace; font-variant-numeric: tabular-nums; }
+.demo .tnum { font-variant-numeric: tabular-nums; }
+.demo h1, .demo h2, .demo h3 { letter-spacing: -0.015em; text-wrap: balance; }
+
+/* Surfaces */
+.demo .card { background: var(--d-surface); border: 1px solid var(--d-line); border-radius: 10px; }
+.demo .card-2 { background: var(--d-surface-2); border: 1px solid var(--d-line); border-radius: 10px; }
+.demo .hairline { border: 1px solid var(--d-line); }
+
+/* Eyebrow labels */
+.demo .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--d-ink-3); }
+
+/* Buttons */
+.demo .btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  height: 34px; padding: 0 12px; border-radius: 7px; font-weight: 500; font-size: 13.5px;
+  border: 1px solid var(--d-line-strong); background: var(--d-surface); color: var(--d-ink);
+  transition: background .12s ease, border-color .12s ease; white-space: nowrap; cursor: pointer;
+}
+.demo .btn:hover { background: var(--d-surface-2); }
+.demo .btn-primary { background: var(--d-ink); color: var(--d-bg); border-color: var(--d-ink); }
+.demo .btn-primary:hover { background: var(--d-ink-2); border-color: var(--d-ink-2); }
+.demo .btn-accent { background: var(--d-accent); color: #fff; border-color: var(--d-accent); }
+.demo .btn-accent:hover { background: var(--d-accent-ink); border-color: var(--d-accent-ink); }
+.demo .btn-ghost { background: transparent; border-color: transparent; color: var(--d-ink-2); }
+.demo .btn-ghost:hover { background: var(--d-surface-2); color: var(--d-ink); }
+.demo .btn-danger { color: var(--d-bad); border-color: var(--d-line-strong); background: var(--d-surface); }
+.demo .btn-danger:hover { background: var(--d-bad-soft); }
+.demo .btn-sm { height: 28px; padding: 0 9px; font-size: 12.5px; border-radius: 6px; }
+.demo .btn-lg { height: 42px; padding: 0 18px; font-size: 15px; border-radius: 8px; }
+.demo .btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Status pills: amber for waiting, red for cancelled or overdue, ink for done, outline for neutral */
+.demo .pill { display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 0 8px; border-radius: 5px; font-size: 12px; font-weight: 500; white-space: nowrap; border: 1px solid transparent; }
+.demo .pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.demo .p-ink { background: var(--d-ink); color: var(--d-bg); }
+.demo .p-ink::before { background: var(--d-accent); }
+.demo .p-accent { background: var(--d-accent-soft); color: var(--d-accent-ink); }
+.demo .p-warn { background: var(--d-warn-soft); color: var(--d-warn); }
+.demo .p-bad { background: var(--d-bad-soft); color: var(--d-bad); }
+.demo .p-neutral { background: transparent; color: var(--d-ink-2); border-color: var(--d-line-strong); }
+
+/* Inputs */
+.demo .input, .demo .select, .demo .textarea {
+  width: 100%; height: 34px; padding: 0 10px; border-radius: 7px; font-size: 13.5px;
+  border: 1px solid var(--d-line-strong); background: var(--d-surface); color: var(--d-ink);
+}
+.demo .textarea { height: auto; padding: 8px 10px; }
+.demo .input:focus, .demo .select:focus, .demo .textarea:focus { outline: 2px solid var(--d-focus); outline-offset: 0; border-color: transparent; }
+.demo label.lbl { font-size: 12px; font-weight: 500; color: var(--d-ink-2); }
+
+/* Tables: the main surface. Quiet rules, hover, tabular figures. */
+.demo table.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.demo table.tbl th { text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--d-ink-3); padding: 8px 12px; border-bottom: 1px solid var(--d-line); white-space: nowrap; }
+.demo table.tbl td { padding: 10px 12px; border-bottom: 1px solid var(--d-line); vertical-align: middle; }
+.demo table.tbl tr:last-child td { border-bottom: 0; }
+.demo table.tbl tbody tr.row-link { cursor: pointer; }
+.demo table.tbl tbody tr.row-link:hover { background: var(--d-surface-2); }
+.demo table.tbl td.num, .demo table.tbl th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.demo .rows > * + * { border-top: 1px solid var(--d-line); }
+.demo .row-hover { transition: background .12s ease; }
+.demo .row-hover:hover { background: var(--d-surface-2); }
+
+/* Seat meter: ink bar on a line, accent only when nearly full */
+.demo .meter { height: 4px; border-radius: 2px; background: var(--d-line); overflow: hidden; }
+.demo .meter > i { display: block; height: 100%; background: var(--d-ink); }
+.demo .meter.hot > i { background: var(--d-accent); }
+
+/* Keyboard hint */
+.demo kbd { font-family: var(--font-mono), ui-monospace, monospace; font-size: 10.5px; padding: 1px 5px; border: 1px solid var(--d-line-strong); border-radius: 4px; color: var(--d-ink-3); }
+
+.demo :where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 2px solid var(--d-focus); outline-offset: 2px; border-radius: 6px; }
+
+/* State-change motion only */
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.demo .rise { animation: rise .25s ease-out both; }
+@keyframes slidein { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
+.demo .slidein { animation: slidein .22s ease-out both; }
+@media (prefers-reduced-motion: reduce) { .demo .rise, .demo .slidein { animation: none !important; } }
+
+/* Grid and flex children shrink with the viewport instead of forcing a horizontal scroll */
+.demo .grid > *, .demo .card, .demo .card-2 { min-width: 0; }
+.demo .scroll-x { overflow-x: auto; scrollbar-width: thin; }
+
+/* App frame on the landing page: a scaled copy of the console */
+.demo .frame { border: 1px solid var(--d-line-strong); border-radius: 12px; background: var(--d-bg); overflow: hidden; box-shadow: 0 1px 0 var(--d-line), 0 30px 60px -40px rgba(0,0,0,.35); }
+.demo .frame-bar { display: flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-bottom: 1px solid var(--d-line); background: var(--d-surface); }
+.demo .frame-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--d-line-strong); display: block; }

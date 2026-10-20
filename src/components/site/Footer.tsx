@@ -11,7 +11,7 @@ const COLUMNS = [
   {
     heading: "Explore",
     links: [
-      { label: "Kolli Hills ride", href: "/rides/kolli-hills" },
+      { label: "For travel operators", href: "/demo" },
       { label: "About Trilyt", href: "/#about" },
       { label: "What we offer", href: "/#why" },
       { label: "FAQs", href: "/#faqs" },
