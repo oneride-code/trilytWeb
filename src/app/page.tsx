@@ -8,8 +8,9 @@ import { Faqs } from "@/components/site/Faqs";
 import { Footer } from "@/components/site/Footer";
 
 /**
- * The app first, then the operator software. The Kolli Hills ride section and
- * announcement bar are out for now; the ride page itself stays at /rides/kolli-hills.
+ * The app first; the operator software last, where vendors looking for us land.
+ * The Kolli Hills ride section and announcement bar are out for now; the ride
+ * page itself stays at /rides/kolli-hills.
  */
 export default function Home() {
   return (
@@ -19,9 +20,9 @@ export default function Home() {
         <Hero />
         <About />
         <Features />
-        <ForOperators />
         <DownloadCta />
         <Faqs />
+        <ForOperators />
       </main>
       <Footer />
     </>

@@ -27,7 +27,7 @@ export function ForOperators() {
             </p>
             <div className="mt-xl flex flex-wrap gap-md">
               <Link href="/demo" className="text-label-md inline-flex items-center gap-sm rounded-half bg-accent-orange px-xl py-md text-[#1a0d06] transition-opacity hover:opacity-90">
-                See the product
+                More details
               </Link>
               <Link href="/demo/enquiry" className="text-label-md inline-flex items-center gap-sm rounded-half border border-white/25 px-xl py-md text-white transition-colors hover:bg-white/10">
                 Send an enquiry
