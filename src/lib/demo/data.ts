@@ -289,9 +289,9 @@ export const weeklyBookings = [6, 8, 5, 9, 11, 7, 10, 12, 8, 13, 15, 11];
 export const USD_INR = 85;
 export interface Plan { id: string; name: string; monthly: number; pct: number; perOffline?: number; cap?: number; onOffline: boolean; offlineCap?: number; guestPays?: boolean; note: string; source: string }
 /** Trilyt's rate card. */
-export const TRILYT = { pct: 1.75, cap: 999, offlineCap: 99 };
+export const TRILYT = { pct: 1.75, cap: 999, offlineCap: 99, freeMonths: 6 };
 export const plans: Plan[] = [
-  { id: "trilyt", name: "Trilyt", monthly: 0, pct: TRILYT.pct, cap: TRILYT.cap, onOffline: true, offlineCap: TRILYT.offlineCap, note: "1.75% of each online order, never more than ₹999. Offline orders: 1.75% or ₹99, whichever is less. No monthly fee. GST invoice, WhatsApp reminders, agents included.", source: "" },
+  { id: "trilyt", name: "Trilyt", monthly: 0, pct: TRILYT.pct, cap: TRILYT.cap, onOffline: true, offlineCap: TRILYT.offlineCap, note: "Free website, and nothing to pay for the first 6 months. Then 1.75% of each online order, never more than ₹999. Offline orders: 1.75% or ₹99, whichever is less. No monthly fee. GST invoice, WhatsApp reminders, agents included.", source: "" },
   { id: "rezdy", name: "Rezdy Foundation", monthly: 49, pct: 3, perOffline: 1, onOffline: false, note: "$49/month plus 3% of each online booking; $1 per offline or agent booking. No GST, no WhatsApp.", source: "https://www.rezdy.com/pricing/" },
   { id: "bokun", name: "Bókun Start", monthly: 49, pct: 1.5, onOffline: false, note: "$49/month plus 1.5% of online bookings. Offline free. No GST, TCS or INR ledger; no WhatsApp.", source: "https://www.bokun.io/pricing" },
   { id: "fareharbor", name: "FareHarbor", monthly: 0, pct: 6, onOffline: false, guestPays: true, note: "No subscription; about 6% booking fee added to what the traveller pays. Your price looks 6% higher than it is.", source: "https://captainbook.io/blog/fareharbor-pricing-fees-explained" },

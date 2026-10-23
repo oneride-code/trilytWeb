@@ -25,6 +25,9 @@ export function ForOperators() {
             <p className="mt-md max-w-[48ch] text-[16px] leading-[26px] text-white/65">
               Trilyt also makes the software behind trek companies, bike expeditions, weekend camps and group tours: bookings, deposits and balances, manifests, refunds and GST, with no monthly fee.
             </p>
+            <p className="mt-lg inline-block rounded-2xl border border-accent-orange/40 bg-accent-orange/10 px-lg py-md text-[15px] font-semibold text-white">
+              A free website for your business, and your first 6 months of bookings free.
+            </p>
             <div className="mt-xl flex flex-wrap gap-md">
               <Link href="/demo" className="text-label-md inline-flex items-center gap-sm rounded-half bg-accent-orange px-xl py-md text-[#1a0d06] transition-opacity hover:opacity-90">
                 More details
@@ -33,7 +36,7 @@ export function ForOperators() {
                 Send an enquiry
               </Link>
             </div>
-            <p className="mt-md text-caption-md text-white/50">1.75% per online order, capped at ₹999 · ₹0 a month · contact@accelryde.com</p>
+            <p className="mt-md text-caption-md text-white/50">Free for 6 months, then 1.75% per online order, capped at ₹999 · ₹0 a month · contact@accelryde.com</p>
           </div>
           <ul className="flex flex-col gap-md self-center">
             {POINTS.map(([h, t]) => (
