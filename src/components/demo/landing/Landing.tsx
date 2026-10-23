@@ -34,6 +34,7 @@ function Hero() {
   return (
     <section className="mx-auto max-w-[1120px] px-4 pt-14 lg:px-6 lg:pt-20">
       <div className="max-w-[760px]">
+        <Link href="#pricing" className="mb-5 inline-block rounded-full bg-[var(--d-surface-2)] px-3 py-1 text-[12.5px] font-medium text-[var(--d-accent-ink)]">Free website · first {TRILYT.freeMonths} months of bookings free</Link>
         <h1 className="text-[36px] font-semibold leading-[1.05] tracking-[-0.025em] sm:text-[48px] lg:text-[56px]">Run every departure. Get paid to your own account.</h1>
         <p className="mt-5 max-w-[600px] text-[17px] leading-relaxed text-[var(--d-ink-2)]">Bookings, deposits and balances, manifests, refunds and GST for Indian travel operators. Travellers pay you directly through your own Razorpay account. Trilyt keeps the books and does the chasing.</p>
         <div className="mt-7 flex flex-wrap gap-2">
@@ -111,8 +112,8 @@ function Pricing() {
   return (
     <section id="pricing" className="mx-auto max-w-[1120px] px-4 py-20 lg:px-6">
       <p className="eyebrow">What it costs</p>
-      <h2 className="mt-2 max-w-[700px] text-[28px] font-semibold leading-tight tracking-[-0.02em] sm:text-[34px]">1.75% of each order, never more than ₹999. No monthly fee, no setup fee, no fee on the traveller.</h2>
-      <p className="mt-3 max-w-[640px] text-[15px] text-[var(--d-ink-2)]">Offline bookings pay 1.75% or ₹99, whichever is less, because the console still runs them. Razorpay&apos;s gateway charge is separate and the same on any software. One invoice a month, paid by UPI mandate.</p>
+      <h2 className="mt-2 max-w-[700px] text-[28px] font-semibold leading-tight tracking-[-0.02em] sm:text-[34px]">A free website, and your first {TRILYT.freeMonths} months of bookings free. Then 1.75% of each order, never more than ₹999.</h2>
+      <p className="mt-3 max-w-[640px] text-[15px] text-[var(--d-ink-2)]">The website carries your packages, departure dates and online booking. After the free months: no monthly fee, no setup fee, no fee on the traveller. Offline bookings pay 1.75% or ₹99, whichever is less, because the console still runs them. Razorpay&apos;s gateway charge is separate and the same on any software. One invoice a month, paid by UPI mandate.</p>
 
       <div className="mt-8 grid gap-5 lg:grid-cols-[320px_1fr]">
         <div className="card flex flex-col gap-4 p-5">
@@ -120,7 +121,7 @@ function Pricing() {
           {([["Bookings a month", bookings, setBookings, 5, 200, 5, (v: number) => String(v)], ["Average order", avg, setAvg, 3000, 120000, 1000, (v: number) => fmt(v)], ["Sold offline or by phone", offline, setOffline, 0, 100, 5, (v: number) => `${v}%`], ["Sold through a marketplace today", mkt, setMkt, 0, 100, 5, (v: number) => `${v}%`]] as const).map(([l, v, set, min, max, step, f]) => (
             <label key={l} className="flex flex-col gap-1.5 text-[12.5px]"><span className="flex justify-between"><span className="text-[var(--d-ink-2)]">{l}</span><b className="tnum">{f(v)}</b></span><input type="range" min={min} max={max} step={step} value={v} onChange={(e) => set(Number(e.target.value))} className="accent-[var(--d-ink)]" /></label>
           ))}
-          <div className="border-t border-[var(--d-line)] pt-3 text-[13px]"><p className="text-[var(--d-ink-2)]">Trilyt per order</p><p className="tnum text-[24px] font-semibold leading-none">{fmt(perOrder)}<span className="text-[12px] font-normal text-[var(--d-ink-3)]"> online{perOrder === TRILYT.cap ? ", capped" : ""} · {fmt(perOffline)} offline</span></p><p className="mt-1 text-[12.5px] text-[var(--d-ink-3)]">{fmt(tc)} a month on these numbers</p></div>
+          <div className="border-t border-[var(--d-line)] pt-3 text-[13px]"><p className="text-[var(--d-ink-2)]">Trilyt per order</p><p className="tnum text-[24px] font-semibold leading-none">{fmt(perOrder)}<span className="text-[12px] font-normal text-[var(--d-ink-3)]"> online{perOrder === TRILYT.cap ? ", capped" : ""} · {fmt(perOffline)} offline</span></p><p className="mt-1 text-[12.5px] text-[var(--d-ink-3)]">₹0 for your first {TRILYT.freeMonths} months, then {fmt(tc)} a month on these numbers</p></div>
         </div>
         <div className="card scroll-x">
           <table className="tbl">
@@ -137,7 +138,7 @@ function Pricing() {
               ); })}
             </tbody>
           </table>
-          <p className="border-t border-[var(--d-line)] px-4 py-2.5 text-[12px] text-[var(--d-ink-3)]">USD at ₹{USD_INR}. Marketplace row applies its commission to the share of bookings you sell there today; the others to all your bookings. Pricing pages read on 21 October 2026; FareHarbor and marketplace rates are from third-party sources and vary by contract. Every row excludes the payment gateway&apos;s own charge, which you pay on any software. {trilyt.name} charges on offline orders too, capped at {fmt(TRILYT.offlineCap)} each.</p>
+          <p className="border-t border-[var(--d-line)] px-4 py-2.5 text-[12px] text-[var(--d-ink-3)]">USD at ₹{USD_INR}. Marketplace row applies its commission to the share of bookings you sell there today; the others to all your bookings. Pricing pages read on 21 October 2026; FareHarbor and marketplace rates are from third-party sources and vary by contract. Every row excludes the payment gateway&apos;s own charge, which you pay on any software. Trilyt&apos;s figures are after the {TRILYT.freeMonths} free months, so your first year costs half of what the row shows. {trilyt.name} charges on offline orders too, capped at {fmt(TRILYT.offlineCap)} each.</p>
         </div>
       </div>
     </section>
@@ -149,7 +150,7 @@ function Closing() {
     <section className="border-t border-[var(--d-line)] bg-[var(--d-surface)]">
       <div className="mx-auto flex max-w-[1120px] flex-col items-start gap-5 px-4 py-20 lg:px-6">
         <h2 className="max-w-[640px] text-[28px] font-semibold leading-tight tracking-[-0.02em] sm:text-[34px]">See it with your own departures.</h2>
-        <p className="max-w-[560px] text-[15px] text-[var(--d-ink-2)]">Connect your Razorpay account, add a package, and send your next traveller a real payment link in an afternoon. We set up the first five operators ourselves.</p>
+        <p className="max-w-[560px] text-[15px] text-[var(--d-ink-2)]">Connect your Razorpay account, add a package, and send your next traveller a real payment link in an afternoon. Your website comes free, and you pay nothing for the first {TRILYT.freeMonths} months. We set up the first five operators ourselves.</p>
         <div className="flex flex-wrap gap-2"><Link href="/demo/enquiry" className="btn btn-accent btn-lg">Send an enquiry</Link><Link href="/demo/app?tour=1" className="btn btn-lg"><Play size={14} fill="currentColor" /> Walk through a week</Link><Link href="/demo/book/spiti-valley-circuit" className="btn btn-lg">Try the booking page</Link></div>
         <p className="text-[12.5px] text-[var(--d-ink-3)]">Trilyt is built by AccelRyde Technologies LLP, Bengaluru · contact@accelryde.com</p>
       </div>

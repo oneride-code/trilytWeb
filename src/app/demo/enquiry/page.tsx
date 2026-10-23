@@ -57,7 +57,7 @@ export default function EnquiryPage() {
           <h1 className="mt-2 text-[32px] font-semibold leading-[1.1] tracking-[-0.02em] sm:text-[40px]">Tell us about your departures. We&apos;ll call you back.</h1>
           <p className="mt-4 text-[16px] leading-relaxed text-[var(--d-ink-2)]">Fill in the form and it drafts an email to <span className="font-medium text-[var(--d-ink)]">{TO}</span> with your details; send it from your own mail app. We reply within one working day and set the first five operators up ourselves.</p>
           <ul className="mt-6 flex flex-col gap-2 text-[14px] text-[var(--d-ink-2)]">
-            {["A 30-minute walkthrough on your own packages", "Your Razorpay account connected, or a new one opened with you", "No monthly fee: 1.75% per online order, capped at ₹999"].map((t) => <li key={t} className="flex gap-2"><Check size={15} className="mt-0.5 shrink-0 text-[var(--d-accent-ink)]" />{t}</li>)}
+            {["A 30-minute walkthrough on your own packages", "Your Razorpay account connected, or a new one opened with you", "A free website with your packages, dates and online booking", "Nothing to pay for 6 months; then 1.75% per online order, capped at ₹999, no monthly fee"].map((t) => <li key={t} className="flex gap-2"><Check size={15} className="mt-0.5 shrink-0 text-[var(--d-accent-ink)]" />{t}</li>)}
           </ul>
           <p className="mt-8 text-[13px] text-[var(--d-ink-3)]">Prefer to write directly? <a href={`mailto:${TO}`} className="underline">{TO}</a>. Trilyt is built by AccelRyde Technologies LLP, Bengaluru.</p>
         </div>
