@@ -12,6 +12,7 @@ import { ArrowLeft, Check, Copy, Mail, Send } from "lucide-react";
 import { Btn, Field, Note, ThemeToggle } from "@/components/demo/ui";
 import { TrilytLogo } from "@/components/demo/Brand";
 import { draftEnquiry, EMPTY_ENQUIRY, ENQUIRY_TO as TO, SELLS, VOLUME, type EnquiryForm as Form } from "@/lib/enquiry";
+import { trackLead } from "@/lib/analytics";
 
 type Status = "idle" | "sending" | "sent" | "fallback";
 
@@ -34,7 +35,7 @@ export default function EnquiryPage() {
     try {
       res = await fetch("/api/enquiry", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(f) });
     } catch { fallback(); return; }
-    if (res.ok) { setStatus("sent"); return; }
+    if (res.ok) { setStatus("sent"); trackLead("operator_enquiry"); return; }
     if (res.status === 400 || res.status === 429) {
       // Our own validation or rate limit: tell them, keep the form editable.
       const data = await res.json().catch(() => null) as { error?: string } | null;
