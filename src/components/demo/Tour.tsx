@@ -3,9 +3,13 @@
 import { useEffect, useSyncExternalStore } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { X } from "lucide-react";
+import { useAgent } from "./Agent";
+import { TRIP_PROMPT } from "@/lib/demo/agent";
 
-const STEPS = [
+/** `ai` opens Trilyt AI on that step with the message typed in, waiting to be sent. */
+const STEPS: { href: string; h: string; t: string; ai?: string }[] = [
   { href: "/demo/app", h: "Monday morning", t: "What needs you today: balances overdue, an agent order waiting, a departure on Saturday. Everything else is quiet." },
+  { href: "/demo/app/packages", h: "A new trip, by chat", t: "Type the trip the way you'd tell your team. Trilyt AI drafts the itinerary, prices and departures, and publishes to your website when you tap. The message is typed in for you: press send.", ai: TRIP_PROMPT },
   { href: "/demo/app/orders/TR-1042", h: "A booking with a balance", t: "One card per booking: who, what they paid, what is due and when, documents, and a log of everything anyone did. Send the reminder from here." },
   { href: "/demo/app/payments", h: "Due and overdue", t: "Every rupee still owed across all departures, soonest first. One tap sends a WhatsApp reminder with the payment link." },
   { href: "/demo/app/departures/dp1", h: "Saturday: the manifest", t: "The guide opens this on a phone at the meeting point: pickup, medical notes, balance owed, and a check-in per person." },
@@ -27,6 +31,7 @@ export function Tour() {
   const router = useRouter();
   const path = usePathname();
   const step = useSyncExternalStore(subscribe, read, () => null);
+  const { open, openAgent, closeAgent } = useAgent();
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -35,11 +40,15 @@ export function Tour() {
 
   if (step === null) return null;
   const s = STEPS[step];
-  const go = (n: number) => { if (n < 0 || n >= STEPS.length) { write(null); return; } write(n); router.push(STEPS[n].href); };
+  const go = (n: number) => {
+    if (n < 0 || n >= STEPS.length) { write(null); return; }
+    write(n); router.push(STEPS[n].href);
+    if (STEPS[n].ai) openAgent(STEPS[n].ai); else closeAgent();
+  };
   const end = () => write(null);
 
   return (
-    <aside key={step} className="rise card fixed bottom-4 right-4 z-[65] w-[min(360px,calc(100vw-32px))] border-[var(--d-line-strong)] p-4 lg:right-6">
+    <aside key={step} className={`rise card fixed bottom-4 right-4 z-[65] w-[min(360px,calc(100vw-32px))] border-[var(--d-line-strong)] p-4 lg:right-6 ${open ? "max-lg:hidden" : ""}`}>
       <div className="flex items-start justify-between gap-3">
         <p className="eyebrow !text-[var(--d-accent-ink)]">A week in the console · {step + 1} of {STEPS.length}</p>
         <button type="button" aria-label="End tour" onClick={end} className="btn btn-ghost btn-sm !h-6 !w-6 !px-0"><X size={13} /></button>

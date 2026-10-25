@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { Check, Moon, Sun, X } from "lucide-react";
 import { useDemo } from "@/lib/demo/store";
-import { PERMS, ROLE_NAV, type OrderStatus, type Perm, type Role } from "@/lib/demo/data";
+import { ROLE_NAV, can, type OrderStatus, type Perm } from "@/lib/demo/data";
 
 export function Card({ children, className = "", as: Tag = "div", tone = "default" }: { children: React.ReactNode; className?: string; as?: "div" | "section" | "article" | "aside" | "nav"; tone?: "default" | "2" }) {
   return <Tag className={`${tone === "2" ? "card-2" : "card"} ${className}`}>{children}</Tag>;
@@ -133,10 +133,7 @@ export function Empty({ children }: { children: React.ReactNode }) {
 }
 
 /** Role helpers: what the current viewer may do and see. */
-export function can(role: Role, action: string): Perm {
-  for (const a of PERMS) for (const r of a.rows) if (r.action === action) return r[role];
-  return false;
-}
+export { can };
 export function useCan(action: string) { const { role } = useDemo(); return can(role, action); }
 export function useNav() { const { role } = useDemo(); return ROLE_NAV[role]; }
 

@@ -4,10 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
-  LayoutGrid, ReceiptText, CalendarDays, Users, Package, Globe, Wallet, Settings, Search, Menu, X, Play, ChevronLeft, Handshake, ShieldCheck, ChevronDown,
+  LayoutGrid, ReceiptText, CalendarDays, Users, Package, Globe, Wallet, Settings, Search, Menu, X, Play, ChevronLeft, Handshake, ShieldCheck, ChevronDown, Sparkles,
 } from "lucide-react";
 import { ThemeToggle, Avatar, useNav } from "./ui";
 import { TrilytLogo } from "./Brand";
+import { useAgent } from "./Agent";
 import { useDemo } from "@/lib/demo/store";
 import { ROLE_LABEL, ROLE_ORDER, type Role } from "@/lib/demo/data";
 
@@ -37,6 +38,7 @@ export function Shell({ children, title, crumb, actions, wide = false }: { child
   const [open, setOpen] = useState(false);
   const { orders, role, setRole } = useDemo();
   const allowed = useNav();
+  const { openAgent } = useAgent();
   const live = orders.filter((o) => o.status !== "cancelled").length;
   const isActive = (href: string) => (href === "/demo/app" ? path === href : path.startsWith(href));
 
@@ -83,6 +85,7 @@ export function Shell({ children, title, crumb, actions, wide = false }: { child
           </nav>
 
           <div className="flex flex-col gap-2 border-t border-[var(--d-line)] p-3">
+            <button type="button" onClick={() => { setOpen(false); openAgent(); }} className="btn justify-center"><Sparkles size={14} className="text-[var(--d-accent)]" /> Ask Trilyt AI <kbd className="ml-auto hidden lg:inline">⌘J</kbd></button>
             <Link href="/demo/app?tour=1" className="btn btn-accent justify-center"><Play size={13} fill="currentColor" /> Walk through a week</Link>
             <p className="px-1 text-[11px] leading-snug text-[var(--d-ink-3)]">Sample data for a fictional operator. Nothing is sent anywhere.</p>
           </div>
@@ -99,10 +102,11 @@ export function Shell({ children, title, crumb, actions, wide = false }: { child
               {crumb && <Link href={crumb.href} className="hidden items-center gap-0.5 text-[var(--d-ink-3)] hover:text-[var(--d-ink)] sm:inline-flex"><ChevronLeft size={14} />{crumb.label}<span className="mx-1.5 text-[var(--d-line-strong)]">/</span></Link>}
               <span className="truncate">{title}</span>
             </div>
-            <div className="ml-auto hidden h-8 min-w-[240px] items-center gap-2 rounded-md border border-[var(--d-line)] bg-[var(--d-surface)] px-2.5 text-[12.5px] text-[var(--d-ink-3)] md:flex">
+            <div className="ml-auto hidden h-8 min-w-[240px] items-center gap-2 rounded-md border border-[var(--d-line)] bg-[var(--d-surface)] px-2.5 text-[12.5px] text-[var(--d-ink-3)] xl:flex">
               <Search size={13} /> <span className="truncate">Search bookings, travellers, departures</span><kbd className="ml-auto">⌘K</kbd>
             </div>
-            <div className="ml-auto flex items-center gap-1.5 md:ml-3">
+            <div className="ml-auto flex items-center gap-1.5 xl:ml-3">
+              <span className="hidden sm:block"><button type="button" onClick={() => openAgent()} title="Trilyt AI (⌘J)" aria-label="Open Trilyt AI" className="btn !h-8 !px-2.5"><Sparkles size={14} className="text-[var(--d-accent)]" /><span className="hidden xl:inline">Trilyt AI</span></button></span>
               {actions}
               <label className="relative hidden items-center sm:flex" title="Switch the viewer to see what each role can do">
                 <span className="sr-only">Viewing as</span>

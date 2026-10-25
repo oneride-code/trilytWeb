@@ -258,6 +258,11 @@ export const PERMS: { area: string; rows: PermRow[] }[] = [
 ];
 
 /** Which console sections each role can open. */
+/** What a role may do with one action from the matrix above. */
+export function can(role: Role, action: string): Perm {
+  for (const a of PERMS) for (const r of a.rows) if (r.action === action) return r[role];
+  return false;
+}
 export const ROLE_NAV: Record<Role, string[]> = {
   owner: ["overview", "bookings", "departures", "travellers", "packages", "agents", "payments", "team", "settings"],
   ops: ["overview", "bookings", "departures", "travellers", "packages", "agents", "settings"],
@@ -393,7 +398,16 @@ export function ruleLabel(rules: [number, number][], i: number) {
 export const seatsLeft = (dp: Departure) => dp.seats - dp.booked;
 export const balanceDue = (dep: Departure) => new Date(d(dep.start).getTime() - 14 * 86400000);
 export const fmtDate = (x: Date) => x.toLocaleDateString("en-IN", { day: "numeric", month: "short", timeZone: TZ });
-export const fmtDay = (x: Date) => x.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", timeZone: TZ });
+/**
+ * "Wednesday, 21 October" in IST, spelled out by hand: Node and Chrome disagree
+ * on the comma in en-IN's long weekday format, which breaks hydration.
+ */
+export function fmtDay(x: Date) {
+  const ist = new Date(x.getTime() + 330 * 60000);
+  const day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][ist.getUTCDay()];
+  const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][ist.getUTCMonth()];
+  return `${day}, ${ist.getUTCDate()} ${month}`;
+}
 export const daysUntil = (s: string) => Math.round((d(s).getTime() - TODAY.getTime()) / 86400000);
 
 /** Payment schedule: booking amount at order, balance 14 days before departure. */

@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { Shell } from "@/components/demo/Shell";
 import { Avatar, Btn, Meter, Stat, StatusPill } from "@/components/demo/ui";
 import { NewBookingButton } from "@/components/demo/actions";
+import { AskBar } from "@/components/demo/Agent";
 import { useDemo } from "@/lib/demo/store";
 import { TODAY, byId, d, dayOf, daysUntil, departures, dstr, dueItems, fee, fmt, fmtDate, fmtDay, monthShort, orderDue, orderPaid, orderTotal, packages, seatsLeft, weeklyBookings } from "@/lib/demo/data";
 
@@ -43,6 +44,8 @@ export default function Overview() {
         <h1 className="mt-1 text-[22px] font-semibold leading-tight">Good morning, {name}.</h1>
         <p className="mt-0.5 text-[13.5px] text-[var(--d-ink-2)]">{upcoming.filter((x) => daysUntil(x.start) <= 7).length} departures this week. {overdue.length ? `${overdue.length} balance${overdue.length > 1 ? "s" : ""} overdue.` : "No balances overdue."} {pending.length ? `${pending.length} agent order waiting.` : ""}</p>
       </div>
+
+      <AskBar />
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <Stat label="Collected this month" value={fmt(collected)} note="to your Razorpay account and in cash" href="/demo/app/payments" />

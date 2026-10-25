@@ -9,6 +9,7 @@ const POINTS = [
   ["Bookings from every channel", "Website, WhatsApp, Instagram, walk-ins and agents land as one booking with a payment link."],
   ["Paid to your own account", "Travellers pay through your own Razorpay account. Deposits, balances and refunds run on policy."],
   ["Built for India", "GST invoices, WhatsApp reminders, agent net rates, a manifest for the guide's phone."],
+  ["Trilyt AI on the desk", "Type “Manali se 7 din ki Spiti trip banao” and it drafts the itinerary, prices and dates, then publishes on your tap. It chases balances and closes departures the same way."],
 ] as const;
 
 export function ForOperators() {
@@ -23,7 +24,7 @@ export function ForOperators() {
               <span className="text-accent-orange">Get paid to your own account.</span>
             </h2>
             <p className="mt-md max-w-[48ch] text-[16px] leading-[26px] text-white/65">
-              Trilyt also makes the software behind trek companies, bike expeditions, weekend camps and group tours: bookings, deposits and balances, manifests, refunds and GST, with no monthly fee.
+              Trilyt also makes the software behind trek companies, bike expeditions, weekend camps and group tours: bookings, deposits and balances, manifests, refunds and GST, plus Trilyt AI to build trips and run the desk by chat. No monthly fee.
             </p>
             <p className="mt-lg inline-block rounded-2xl border border-accent-orange/40 bg-accent-orange/10 px-lg py-md text-[15px] font-semibold text-white">
               A free website for your business, and your first 6 months of bookings free.

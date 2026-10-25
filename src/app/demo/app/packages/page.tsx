@@ -3,18 +3,21 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Plus, ExternalLink } from "lucide-react";
+import { Plus, ExternalLink, Sparkles } from "lucide-react";
 import { Shell, PageTitle } from "@/components/demo/Shell";
 import { Btn } from "@/components/demo/ui";
+import { useAgent } from "@/components/demo/Agent";
 import { useDemo } from "@/lib/demo/store";
+import { TRIP_PROMPT } from "@/lib/demo/agent";
 import { TODAY, d, departures, dstr, fmt, packages, policies } from "@/lib/demo/data";
 
 export default function PackagesPage() {
   const { notify, role } = useDemo();
+  const { openAgent } = useAgent();
   const router = useRouter();
   return (
-    <Shell title="Packages" actions={(role === "owner" || role === "ops") && <Btn variant="primary" onClick={() => notify("Package editor (demo)")}><Plus size={14} /> Package</Btn>} wide>
-      <PageTitle title="Packages" sub="What you sell. Each package has price options, add-ons, a cancellation policy and dated departures. Ops can create and edit packages; prices and the policy are the owner's." />
+    <Shell title="Packages" actions={(role === "owner" || role === "ops") && <><Btn onClick={() => openAgent(TRIP_PROMPT)} title="Create with AI"><Sparkles size={14} className="text-[var(--d-accent)]" /><span className="hidden sm:inline">Create with AI</span></Btn><Btn variant="primary" onClick={() => notify("Package editor (demo)")}><Plus size={14} /> Package</Btn></>} wide>
+      <PageTitle title="Packages" sub="What you sell. Each package has price options, add-ons, a cancellation policy and dated departures. Ops can create and edit packages; prices and the policy are the owner's. Or describe a trip to Trilyt AI in one line and publish its draft." />
       <div className="card scroll-x">
         <table className="tbl">
           <thead><tr><th>Package</th><th>Type</th><th className="num">From</th><th className="num">Booking amount</th><th>Policy</th><th>Next departure</th><th className="num">Rating</th><th></th></tr></thead>
@@ -27,7 +30,7 @@ export default function PackagesPage() {
                 <td className="num">{fmt(p.booking)}</td>
                 <td className="text-[var(--d-ink-2)]">{policies[p.policy].name}</td>
                 <td>{next ? <>{dstr(next.start)}<span className="block text-[11.5px] text-[var(--d-ink-3)]">{next.seats - next.booked} seats open</span></> : "—"}</td>
-                <td className="num">{p.rating} <span className="text-[var(--d-ink-3)]">({p.reviews})</span></td>
+                <td className="num">{p.reviews ? <>{p.rating} <span className="text-[var(--d-ink-3)]">({p.reviews})</span></> : <span className="text-[var(--d-ink-3)]">New</span>}</td>
                 <td className="text-right"><Link href={`/demo/book/${p.slug}`} className="btn btn-ghost btn-sm" onClick={(e) => e.stopPropagation()}><ExternalLink size={12} /> Booking page</Link></td>
               </tr>
             ); })}
