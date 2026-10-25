@@ -6,7 +6,7 @@ import { Shell } from "@/components/demo/Shell";
 import { Avatar, Btn, Meter, Stat, StatusPill } from "@/components/demo/ui";
 import { NewBookingButton } from "@/components/demo/actions";
 import { useDemo } from "@/lib/demo/store";
-import { TODAY, TZ, byId, d, dayOf, daysUntil, departures, dstr, dueItems, fee, fmt, fmtDate, monthShort, orderDue, orderPaid, orderTotal, packages, seatsLeft, weeklyBookings } from "@/lib/demo/data";
+import { TODAY, byId, d, dayOf, daysUntil, departures, dstr, dueItems, fee, fmt, fmtDate, fmtDay, monthShort, orderDue, orderPaid, orderTotal, packages, seatsLeft, weeklyBookings } from "@/lib/demo/data";
 
 function Chart({ data }: { data: number[] }) {
   const w = 560, h = 120, pad = 6, max = Math.max(...data);
@@ -39,7 +39,7 @@ export default function Overview() {
   return (
     <Shell title="Overview" actions={(role === "owner" || role === "ops") && <NewBookingButton primary />}>
       <div>
-        <p className="eyebrow">{TODAY.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", timeZone: TZ })}</p>
+        <p className="eyebrow">{fmtDay(TODAY)}</p>
         <h1 className="mt-1 text-[22px] font-semibold leading-tight">Good morning, {name}.</h1>
         <p className="mt-0.5 text-[13.5px] text-[var(--d-ink-2)]">{upcoming.filter((x) => daysUntil(x.start) <= 7).length} departures this week. {overdue.length ? `${overdue.length} balance${overdue.length > 1 ? "s" : ""} overdue.` : "No balances overdue."} {pending.length ? `${pending.length} agent order waiting.` : ""}</p>
       </div>

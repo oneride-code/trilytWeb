@@ -393,6 +393,7 @@ export function ruleLabel(rules: [number, number][], i: number) {
 export const seatsLeft = (dp: Departure) => dp.seats - dp.booked;
 export const balanceDue = (dep: Departure) => new Date(d(dep.start).getTime() - 14 * 86400000);
 export const fmtDate = (x: Date) => x.toLocaleDateString("en-IN", { day: "numeric", month: "short", timeZone: TZ });
+export const fmtDay = (x: Date) => x.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", timeZone: TZ });
 export const daysUntil = (s: string) => Math.round((d(s).getTime() - TODAY.getTime()) / 86400000);
 
 /** Payment schedule: booking amount at order, balance 14 days before departure. */
