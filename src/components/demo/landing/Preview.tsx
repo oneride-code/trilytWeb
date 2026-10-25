@@ -5,7 +5,7 @@ import { LayoutGrid, ReceiptText, CalendarDays, Users, Package, Wallet, ShieldCh
 import { Avatar, Meter, StatusPill } from "../ui";
 import { TrilytMark } from "../Brand";
 import { useDemo } from "@/lib/demo/store";
-import { TODAY, byId, d, dayOf, departures, dueItems, fee, fmt, fmtDate, monthShort, orderDue, packages, seatsLeft } from "@/lib/demo/data";
+import { TODAY, byId, d, dayOf, departures, dueItems, fee, fmt, fmtDate, fmtDay, monthShort, orderDue, packages, seatsLeft } from "@/lib/demo/data";
 
 const NAV = [["Overview", LayoutGrid, true], ["Bookings", ReceiptText, false], ["Departures", CalendarDays, false], ["Travellers", Users, false], ["Packages", Package, false], ["Agents", Handshake, false], ["Payments", Wallet, false], ["Team and roles", ShieldCheck, false]] as const;
 
@@ -32,7 +32,7 @@ export function Preview() {
         <div className="min-w-0">
           <div className="flex h-10 items-center gap-2 border-b border-[var(--d-line)] px-4 text-[11.5px]"><span className="font-medium">Overview</span><span className="ml-auto flex h-6 w-[200px] items-center gap-1.5 rounded border border-[var(--d-line)] bg-[var(--d-surface)] px-2 text-[var(--d-ink-3)]"><Search size={11} /> Search</span><Avatar name="Ramesh Lotey" size={22} /></div>
           <div className="flex flex-col gap-3 p-4">
-            <div><p className="eyebrow">Tuesday, 21 October</p><p className="mt-0.5 text-[15px] font-semibold">Good morning, Ramesh.</p></div>
+            <div><p className="eyebrow">{fmtDay(TODAY)}</p><p className="mt-0.5 text-[15px] font-semibold">Good morning, Ramesh.</p></div>
             <div className="grid grid-cols-4 gap-2">
               {[["Collected this month", fmt(collected), ""], ["Balance due", fmt(due), `${overdue.length} overdue`], ["Refunded", fmt(13999), "by policy"], ["Trilyt fee", fmt(fees), "1.75%, cap ₹999"]].map(([l, v, n], i) => <div key={l} className="card p-2.5"><p className="eyebrow !text-[9.5px]">{l}</p><p className={`tnum mt-1 text-[15px] font-semibold leading-none ${i === 1 ? "text-[var(--d-accent-ink)]" : ""}`}>{v}</p>{n && <p className="mt-1 text-[10px] text-[var(--d-ink-3)]">{n}</p>}</div>)}
             </div>
