@@ -4,12 +4,15 @@
  * In-memory store for the demo. Orders change as you click through the
  * booking cycle (confirm, record a payment, move a date, check in, cancel),
  * and the change survives navigation between demo pages. A reload resets it.
+ * Packages published from Trilyt AI join the shared catalogue arrays in data.ts,
+ * the same way seat counts there change as orders do.
  */
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import {
-  TODAY_S, bookingAmt, departures, dstr, initialOrders, orderDue, refundFor, travellers as seedTravellers,
-  type CheckState, type Order, type Payment, type Role, type Source, type Traveller,
+  TODAY_S, bookingAmt, departures, dstr, initialOrders, orderDue, packages, refundFor, travellers as seedTravellers,
+  type CheckState, type Order, type Payment, type Pkg, type Role, type Source, type Traveller,
 } from "./data";
+import { addDays, type TripDraft } from "./agent";
 
 type Theme = "light" | "dark";
 const NOW = `${TODAY_S} 09:${String(12 + Math.floor(Math.random() * 40)).padStart(2, "0")}`;
@@ -35,6 +38,9 @@ interface Store {
   checkIn: (id: string, t: string, state: CheckState | null) => void;
   sendReminder: (id: string) => void;
   closeDeparture: (depId: string) => { orders: number; refunded: number };
+  /** Adds a package Trilyt AI drafted, with its departures, to the catalogue the console and booking pages read. */
+  publishTrip: (t: TripDraft) => Pkg;
+  catalog: number;
 }
 
 const Ctx = createContext<Store | null>(null);
@@ -47,6 +53,7 @@ export function DemoStoreProvider({ children, initialTheme = "light" }: { childr
   const [role, setRole] = useState<Role>("owner");
   const [theme, setThemeState] = useState<Theme>(initialTheme);
   const [toast, setToast] = useState<string | null>(null);
+  const [catalog, setCatalog] = useState(0);
   const who = WHO[role];
 
   const setTheme = useCallback((t: Theme) => {
@@ -120,8 +127,22 @@ export function DemoStoreProvider({ children, initialTheme = "light" }: { childr
     return { orders: n, refunded };
   }, [who]);
 
-  const value = useMemo<Store>(() => ({ orders, people, closed, role, setRole, theme, setTheme, toast, notify, confirmOrder, declineOrder, recordPayment, cancelOrder, createOrder, moveOrder, addTraveller, checkIn, sendReminder, closeDeparture }),
-    [orders, people, closed, role, theme, setTheme, toast, notify, confirmOrder, declineOrder, recordPayment, cancelOrder, createOrder, moveOrder, addTraveller, checkIn, sendReminder, closeDeparture]);
+  const publishTrip = useCallback((t: TripDraft) => {
+    const had = packages.find((p) => p.slug === t.slug);
+    if (had) return had;
+    const p: Pkg = {
+      id: `pk${packages.length + 1}`, slug: t.slug, name: t.name, tagline: t.tagline, days: `${t.nights}N / ${t.days}D`, region: t.region, type: t.type,
+      policy: t.policy, booking: t.booking, image: t.image, options: t.options, addons: [], inclusions: t.inclusions, exclusions: t.exclusions,
+      itinerary: t.itinerary, rating: 0, reviews: 0, meet: t.meet,
+    };
+    packages.push(p);
+    for (const s of t.dates) departures.push({ id: `${p.id}-${s}`, pkg: p.id, start: s, end: addDays(s, t.days - 1), seats: t.seats, booked: 0, guide: "Unassigned", cutoff: addDays(s, -4) });
+    setCatalog((n) => n + 1);
+    return p;
+  }, []);
+
+  const value = useMemo<Store>(() => ({ orders, people, closed, role, setRole, theme, setTheme, toast, notify, confirmOrder, declineOrder, recordPayment, cancelOrder, createOrder, moveOrder, addTraveller, checkIn, sendReminder, closeDeparture, publishTrip, catalog }),
+    [orders, people, closed, role, theme, setTheme, toast, notify, confirmOrder, declineOrder, recordPayment, cancelOrder, createOrder, moveOrder, addTraveller, checkIn, sendReminder, closeDeparture, publishTrip, catalog]);
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 

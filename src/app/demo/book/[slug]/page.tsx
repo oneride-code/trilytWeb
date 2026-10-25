@@ -36,7 +36,7 @@ export default function BookPage({ params }: { params: Promise<{ slug: string }>
             <p className="eyebrow">{p.type} · {p.region} · {p.days}</p>
             <h1 className="mt-1.5 text-[30px] font-semibold leading-tight">{p.name}</h1>
             <p className="mt-1 text-[15px] text-[var(--d-ink-2)]">{p.tagline}</p>
-            <p className="mt-2 flex items-center gap-1.5 text-[13px] text-[var(--d-ink-2)]"><Star size={13} fill="currentColor" /> {p.rating} · {p.reviews} reviews · meet at {p.meet}</p>
+            <p className="mt-2 flex items-center gap-1.5 text-[13px] text-[var(--d-ink-2)]"><Star size={13} fill="currentColor" /> {p.reviews ? `${p.rating} · ${p.reviews} reviews` : "New trip"} · meet at {p.meet}</p>
           </div>
           <div className="relative aspect-[3/2] max-h-[380px] overflow-hidden rounded-lg border border-[var(--d-line)]"><Image src={p.image} alt={p.name} fill sizes="(min-width: 1024px) 640px, 100vw" className="object-cover" priority /></div>
 
